@@ -41,8 +41,9 @@ webSocket.on('connection', (connection, request) => {
 
     const companyReservationsList = await redisClient.hGetAll(company as string);
 
+    delete companyReservationsList[user as string];
+
     webSocket.clients.forEach((client) => {
-      delete companyReservationsList[user as string];
       client.send(JSON.stringify(companyReservationsList));
     })
   });
